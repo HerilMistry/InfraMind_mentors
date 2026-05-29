@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: inference-deployment
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: inference-service
+
+  template:
+    metadata:
+      labels:
+        app: inference-service
+
+    spec:
+      containers:
+      - name: inference-service
+
+        image: inframind-inference:latest
+
+        imagePullPolicy: Never
+
+        ports:
+        - containerPort: 8000
