@@ -1,31 +1,54 @@
 import requests
+#for now i used polling.. later.. we can shift to websockets!
+PROM_URL = "http://localhost:9090"
 
-PROMETHEUS_URL = "http://localhost:9090"
 
+class Monitor:
 
-class PrometheusMonitor:
-    def __init__(self):
-        self.base_url = PROMETHEUS_URL
-
-    def query_metric(self, metric_name: str):
-        url = f"{self.base_url}/api/v1/query"
-
-        response = requests.get(
-            url,
-            params={"query": metric_name}
-        )
-
-        data = response.json()
+    def query(self, metric):
 
         try:
-            value = float(data["data"]["result"][0]["value"][1])
-            return value
-        except Exception:
-            return None
+            r = requests.get(
+            f"{PROM_URL}/api/v1/query",
+            params={"query": metric},
+            timeout=5
+            )
 
+            r.raise_for_status()
+
+            data = r.json()
+
+            results = data["data"]["result"]
+
+            if not results:
+                return None
+
+            return float(results[0]["value"][1])
+
+        except Exception as e:
+            print(f"Prometheus query failed: {e}")
+            return None
+        
     def collect_metrics(self):
+
         return {
-            "memory_pressure": self.query_metric("memory_pressure_score"),
-            "prediction_drift": self.query_metric("prediction_drift_score"),
-            "requests": self.query_metric("inference_requests_total")
+            "latency":
+                self.query(
+                    "rate(inference_latency_seconds_sum[1m])"
+                ),
+
+            "failed_requests":
+                self.query(
+                    "inference_failed_requests_total"
+                ),
+
+            "memory_pressure":
+                self.query(
+                    "memory_pressure_score"
+                ),
+
+            "drift":
+                self.query(
+                    "prediction_drift_score"
+                )
         }

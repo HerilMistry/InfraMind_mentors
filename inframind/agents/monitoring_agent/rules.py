@@ -1,12 +1,12 @@
-MEMORY_THRESHOLD = 0.85
-DRIFT_THRESHOLD = 0.75
+MEMORY_THRESHOLD = 0.1
+DRIFT_THRESHOLD = 0.1
 
 
 def evaluate_rules(metrics: dict):
     alerts = []
 
     memory = metrics.get("memory_pressure")
-    drift = metrics.get("prediction_drift")
+    drift = metrics.get("drift")
 
     if memory and memory > MEMORY_THRESHOLD:
         alerts.append("HIGH_MEMORY_PRESSURE")
