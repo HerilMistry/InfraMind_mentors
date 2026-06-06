@@ -49,7 +49,6 @@ class RootCauseAgent:
 
         logs = self.log_parser.get_logs(
             namespace="default",
-            pod_name="inference-pod"
         )
 
         root_cause = (

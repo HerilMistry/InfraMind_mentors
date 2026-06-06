@@ -38,7 +38,7 @@ class OptimizationAgent:
         success = (
             self.optimizer.restart_deployment(
                 deployment_name=
-                "inference-service"
+                "inference-deployment"
             )
         )
 
