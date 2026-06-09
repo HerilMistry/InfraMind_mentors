@@ -17,12 +17,20 @@ spec:
         app: inference-service
 
     spec:
+      envFrom:
+      - configMapRef:
+          name: model-config
       containers:
       - name: inference-service
-
         image: inframind-inference:latest
-
         imagePullPolicy: Never
-
         ports:
         - containerPort: 8000
+      - name: phi3-micro
+        image: mcr.microsoft.com/phi3/phi3-mini-instruct:latest
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "256Mi"
+        command: ["python", "-m", "phi3.server"]

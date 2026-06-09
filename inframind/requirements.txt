@@ -8,3 +8,4 @@ pandas
 scikit-learn
 python-dotenv
 pyyaml
+httpx[http2]>=0.27.0
