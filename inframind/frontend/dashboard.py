@@ -21,11 +21,18 @@ st.set_page_config(
 )
 
 # ─── Custom CSS (dark glassmorphism) ─────────────────────────────────────────
-st.markdown(, unsafe_allow_html=True)
+css_path = Path(__file__).parent / "css" / "style.css"
+if css_path.exists():
+    with open(css_path) as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+else:
+    st.markdown("", unsafe_allow_html=True)
 
 # ─── Constants ────────────────────────────────────────────────────────────────
-API_BASE   = "http://localhost:8000"
-PROM_BASE  = "http://localhost:9090"
+import os
+
+API_BASE   = os.getenv("API_BASE", "http://localhost:8000")
+PROM_BASE  = os.getenv("PROM_BASE", "http://localhost:9090")
 
 # ─── Session state initialisation ────────────────────────────────────────────
 def _init_state():
@@ -172,10 +179,10 @@ with st.sidebar:
 
     st.divider()
     st.markdown("### Links")
-    st.markdown("- [Grafana ↗](http://localhost:3000)")
-    st.markdown("- [Prometheus ↗](http://localhost:9090)")
-    st.markdown("- [MLflow ↗](http://localhost:5000)")
-    st.markdown("- [FastAPI Docs ↗](http://localhost:8000/docs)")
+    st.markdown(f"- [Grafana ↗]({os.getenv('GRAFANA_URL', 'http://localhost:3000')})")
+    st.markdown(f"- [Prometheus ↗]({PROM_BASE})")
+    st.markdown(f"- [MLflow ↗]({os.getenv('MLFLOW_URL', 'http://localhost:5000')})")
+    st.markdown(f"- [FastAPI Docs ↗]({API_BASE}/docs)")
 
 # ─── Main layout ─────────────────────────────────────────────────────────────
 _tick_metrics()

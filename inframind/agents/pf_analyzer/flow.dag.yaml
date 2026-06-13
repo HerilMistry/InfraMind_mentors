@@ -1,0 +1,30 @@
+$schema: https://azuremlschemas.azureedge.net/promptflow/latest/Flow.schema.json
+environment:
+  python_requirements_txt: requirements.txt
+inputs:
+  anomaly_log:
+    type: string
+    description: "The JSON serialized log anomaly entry."
+outputs:
+  analysis_result:
+    type: string
+    reference: ${analyze_anomaly.output}
+nodes:
+- name: format_prompt
+  type: python
+  source:
+    type: code
+    path: format_prompt.py
+  inputs:
+    log_data: ${inputs.anomaly_log}
+- name: analyze_anomaly
+  type: llm
+  source:
+    type: code
+    path: analyze.jinja2
+  inputs:
+    deployment_name: "gpt-4o"
+    temperature: 0.2
+    prompt_text: ${format_prompt.output}
+  connection: azure_openai_connection
+  api: chat

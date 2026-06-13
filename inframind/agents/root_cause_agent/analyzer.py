@@ -36,6 +36,8 @@ class RootCauseAgent:
         self.event_bus.subscribe(
             "MODEL_DRIFT_DETECTED",
             self.analyze
+        )
+
     def analyze(
         self,
         event

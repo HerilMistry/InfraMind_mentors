@@ -19,6 +19,8 @@ class OptimizationAgent:
         self.event_bus.subscribe(
             "ROOT_CAUSE_FOUND",
             self.optimize
+        )
+
     def optimize(
         self,
         event

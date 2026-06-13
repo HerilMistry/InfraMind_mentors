@@ -31,3 +31,7 @@ kubernetes>=29.0.0
 
 # Utils
 pyyaml>=6.0
+# PromptFlow
+promptflow>=1.8.0
+promptflow-tools>=1.1.0
+
