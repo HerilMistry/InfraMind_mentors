@@ -3,7 +3,7 @@ from agents.orchestrator.cognitive_state import CognitiveState, ExecutionPlan, A
 import random
 
 def strategy_generator_node(state: CognitiveState):
-    """Generates candidate remediation strategies based on Root Cause."""
+    
     print("[Optimization] Strategy Generator building candidate plans...")
     rc = state.get("root_cause_declared")
     strategies = []
@@ -19,7 +19,7 @@ def strategy_generator_node(state: CognitiveState):
     return {"proposed_strategies": strategies}
 
 def cost_analysis_node(state: CognitiveState):
-    """Evaluates the financial/resource cost of a strategy."""
+    
     print("[Optimization] Cost Analysis evaluating resource spend...")
     strategies = state.get("proposed_strategies", [])
     for s in strategies:
@@ -30,7 +30,7 @@ def cost_analysis_node(state: CognitiveState):
     return {"proposed_strategies": strategies}
 
 def safety_analysis_node(state: CognitiveState):
-    """Evaluates the risk of the remediation (blast radius)."""
+    
     print("[Optimization] Safety Analysis checking constraints...")
     strategies = state.get("proposed_strategies", [])
     for s in strategies:
@@ -41,17 +41,17 @@ def safety_analysis_node(state: CognitiveState):
     return {"proposed_strategies": strategies}
 
 def performance_impact_node(state: CognitiveState):
-    """Simulates the effect of the strategy on TTF and latency."""
+    
     print("[Optimization] Performance Impact simulating TTF resolution...")
     return {} # Stateful updates omitted for simplicity
 
 def resource_planner_node(state: CognitiveState):
-    """Determines exact parameters based on current cluster capacity."""
+    
     print("[Optimization] Resource Planner verifying cluster capacity...")
     return {}
 
 def optimization_ranking_node(state: CognitiveState):
-    """Ranks parameterized strategies using a Pareto frontier."""
+    
     print("[Optimization] Ranking Agent balancing Cost vs Safety...")
     strategies = state.get("proposed_strategies", [])
     # Ranking logic: High Safety is prioritized, followed by Low Cost.
@@ -60,7 +60,7 @@ def optimization_ranking_node(state: CognitiveState):
     return {"ranked_strategies": ranked}
 
 def optimization_consensus_node(state: CognitiveState):
-    """Commits to the top strategy and constructs the Execution Plan."""
+    
     ranked = state.get("ranked_strategies", [])
     if not ranked:
         return {"selected_plan": None}

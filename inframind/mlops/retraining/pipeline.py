@@ -1,8 +1,4 @@
-"""
-mlops/retraining/pipeline.py
-Full end-to-end MLflow retraining pipeline.
-Runs: load data → train → validate → register in MLflow model registry.
-"""
+
 import os
 import sys
 import logging

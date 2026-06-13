@@ -3,13 +3,13 @@ from agents.orchestrator.cognitive_state import CognitiveState
 import random
 
 def metric_observer_node(state: CognitiveState):
-    """Parses and normalizes raw telemetry."""
+    
     print("[Monitoring] Metric Observer collecting data...")
     metrics = state.get("raw_signals", {}).get("metrics", {})
     return {"raw_signals": {"metrics": metrics, "status": "normalized"}}
 
 def pattern_detector_node(state: CognitiveState):
-    """Identifies cyclical behaviors or known failure signatures."""
+    
     metrics = state.get("raw_signals", {}).get("metrics", {})
     mem = metrics.get("memory_pressure", 0)
     patterns = []
@@ -21,13 +21,13 @@ def pattern_detector_node(state: CognitiveState):
     return {"active_patterns": patterns}
 
 def trend_analyzer_node(state: CognitiveState):
-    """Calculates moving averages and momentum."""
+    
     # Simulated trend analysis
     print("[Monitoring] Trend Analyzer computing momentum...")
     return {} # In a real implementation, this would update a trend state
 
 def forecast_agent_node(state: CognitiveState):
-    """Predicts when a metric will breach critical thresholds."""
+    
     patterns = state.get("active_patterns", [])
     ttf = None
     if "Memory Spike Signature" in patterns:
@@ -36,7 +36,7 @@ def forecast_agent_node(state: CognitiveState):
     return {"ttf_estimate": ttf}
 
 def risk_assessment_node(state: CognitiveState):
-    """Contextualizes anomalies against business impact."""
+    
     ttf = state.get("ttf_estimate")
     risk_score = 0.1
     if ttf is not None and ttf < 30:
@@ -45,7 +45,7 @@ def risk_assessment_node(state: CognitiveState):
     return {"risk_score": risk_score}
 
 def monitoring_consensus_node(state: CognitiveState):
-    """Aggregates findings and decides if an Incident should be declared."""
+    
     risk = state.get("risk_score", 0.0)
     ttf = state.get("ttf_estimate")
     

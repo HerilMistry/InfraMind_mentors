@@ -1,7 +1,4 @@
-"""
-mlops/retraining/validator.py
-Validates a trained model on a held-out portion of the dataset.
-"""
+
 import logging
 from pathlib import Path
 from typing import Dict, Any
@@ -18,7 +15,7 @@ log = logging.getLogger(__name__)
 
 
 def validate_model(model, data_path: Path) -> Dict[str, Any]:
-    """Run validation and return a metrics dict."""
+    
     X, y = load_data(data_path)
     _, X_val, _, y_val = train_test_split(
         X, y, test_size=0.2, random_state=42, stratify=y if y.sum() > 0 else None

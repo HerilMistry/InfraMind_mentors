@@ -5,6 +5,11 @@ services:
     dockerContext: ./services/inference_service
     dockerfilePath: ./services/inference_service/Dockerfile
     plan: free
+    envVars:
+      - key: USE_MICRO_MODEL
+        value: "false"
+      - key: MICRO_MODEL_URL
+        value: "http://127.0.0.1:8001/v1/completions"
 
   - type: worker
     name: inframind-orchestrator
@@ -17,3 +22,9 @@ services:
         value: "http://prometheus:9090" # Needs actual prometheus host in production
       - key: GROQ_API_KEY
         sync: false # Set via Render Dashboard
+      - key: MLFLOW_TRACKING_URI
+        value: "http://localhost:5000"
+      - key: MLFLOW_EXPERIMENT
+        value: "inframind-anomaly-detection"
+      - key: MLFLOW_MODEL_NAME
+        value: "inframind-anomaly-detector"

@@ -1,9 +1,4 @@
-"""
-frontend/dashboard.py
-InfraMind — Cognitive SRE Platform Dashboard (Streamlit).
-Connects to the FastAPI inference service, the Prometheus metrics endpoint,
-and streams live agent audit logs. Provides HITL approval UI for recovery actions.
-"""
+
 import time
 import random
 import threading
@@ -26,80 +21,7 @@ st.set_page_config(
 )
 
 # ─── Custom CSS (dark glassmorphism) ─────────────────────────────────────────
-st.markdown("""
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono&display=swap');
-
-html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
-
-/* Sidebar */
-[data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #0F1219 0%, #0B0E14 100%);
-    border-right: 1px solid rgba(255,255,255,0.06);
-}
-
-/* Cards */
-div[data-testid="stMetric"] {
-    background: rgba(20,24,34,0.65);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 12px;
-    padding: 16px 20px;
-    transition: transform 0.2s;
-}
-
-div[data-testid="stMetric"]:hover { transform: translateY(-2px); }
-
-/* Terminal box */
-.terminal-box {
-    background: #0a0d13;
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 10px;
-    padding: 16px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    color: #10b981;
-    max-height: 340px;
-    overflow-y: auto;
-    line-height: 1.7;
-}
-
-.log-monitoring { color: #60a5fa; }
-.log-rca        { color: #a78bfa; }
-.log-optim      { color: #fbbf24; }
-.log-recovery   { color: #f87171; }
-.log-ts         { color: #475569; }
-
-/* Incident card */
-.incident-card {
-    background: rgba(245,158,11,0.08);
-    border: 1px solid rgba(245,158,11,0.25);
-    border-radius: 12px;
-    padding: 20px;
-}
-
-/* Flow step */
-.flow-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin: 8px 0;
-}
-.step-done    { color: #10b981; font-weight: 600; }
-.step-active  { color: #60a5fa; font-weight: 600; }
-.step-pending { color: #475569; }
-
-/* Causal node */
-.causal-node {
-    background: rgba(59,130,246,0.08);
-    border: 1px solid rgba(59,130,246,0.25);
-    border-radius: 8px;
-    padding: 8px 14px;
-    margin: 4px 0;
-    font-size: 13px;
-}
-</style>
-""", unsafe_allow_html=True)
+st.markdown(, unsafe_allow_html=True)
 
 # ─── Constants ────────────────────────────────────────────────────────────────
 API_BASE   = "http://localhost:8000"
@@ -128,7 +50,7 @@ _init_state()
 
 # ─── Simulated metrics ────────────────────────────────────────────────────────
 def _tick_metrics():
-    """Generate one tick of simulated infrastructure metrics."""
+    
     now = time.time()
     if now - st.session_state["last_tick"] < 1:
         return
@@ -323,26 +245,14 @@ with right:
     if st.session_state["incident_active"] or st.session_state.get("incident_id"):
         inc_id = st.session_state.get("incident_id", "—")
         st.markdown("## 🚨 Active Incident")
-        st.markdown(f"""
-<div class="incident-card">
-  <p style="color:#fbbf24;font-family:monospace;font-size:13px;">{inc_id} &nbsp;·&nbsp; {datetime.utcnow().strftime('%H:%M:%S UTC')}</p>
-  <h4 style="margin:8px 0;">Inference Service OOM Risk</h4>
-  <p style="color:#94a3b8;font-size:13px;">Sudden traffic spike is causing memory pressure on inference-deployment pods.</p>
-</div>
-""", unsafe_allow_html=True)
+        st.markdown(f, unsafe_allow_html=True)
 
         if st.session_state.get("incident_root_cause"):
             st.info(f"🔬 **Root Cause:** {st.session_state['incident_root_cause']}")
 
         if st.session_state.get("incident_strategy"):
             st.markdown("**Proposed Remediation:**")
-            st.code(f"""apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: inference-deployment
-spec:
-  replicas: 5  # scaled up from 3
-  # Strategy: {st.session_state['incident_strategy']}""", language="yaml")
+            st.code(f, language="yaml")
 
         # HITL Approval block
         if st.session_state.get("hitl_pending"):

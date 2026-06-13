@@ -2,10 +2,7 @@ import os
 import httpx
 
 class MicroModelClient:
-    """Thin wrapper around the phi3‑mini‑instruct side‑car.
-
-    Communicates via HTTP on localhost:8001 (exposed by the side‑car).
-    """
+    
     def __init__(self) -> None:
         self.base_url = os.getenv(
             "MICRO_MODEL_URL",

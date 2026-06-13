@@ -2,12 +2,12 @@ from langgraph.graph import StateGraph, END
 from agents.orchestrator.cognitive_state import CognitiveState, LogEvent, Hypothesis
 
 def observation_node(state: CognitiveState):
-    """Establishes scope of investigation."""
+    
     print("[RCA] Observation Agent scoping incident...")
     return {}
 
 def evidence_collector_node(state: CognitiveState):
-    """Gathers raw evidence from logs and K8s API."""
+    
     print("[RCA] Evidence Collector querying Loki/Kubernetes...")
     # Simulated logs
     logs = [
@@ -17,12 +17,12 @@ def evidence_collector_node(state: CognitiveState):
     return {"evidence_pool": logs}
 
 def log_investigator_node(state: CognitiveState):
-    """Extracts structured events from logs."""
+    
     print("[RCA] Log Investigator analyzing stack traces...")
     return {}
 
 def causal_graph_builder_node(state: CognitiveState):
-    """Constructs DAG of system state."""
+    
     print("[RCA] Causal Graph Builder connecting temporal events...")
     cg = {
         "Memory Spike": ["OOMKilled"],
@@ -31,14 +31,14 @@ def causal_graph_builder_node(state: CognitiveState):
     return {"causal_graph": cg}
 
 def hypothesis_generator_node(state: CognitiveState):
-    """Proposes potential root causes."""
+    
     print("[RCA] Hypothesis Generator proposing causes...")
     h1 = Hypothesis(id="H1", description="Memory Leak in Inference App", confidence=0.6, expected_symptoms=["Gradual memory increase over 24h"])
     h2 = Hypothesis(id="H2", description="Traffic Spike causing OOM", confidence=0.4, expected_symptoms=["Sudden ingress request spike"])
     return {"active_hypotheses": [h1, h2]}
 
 def hypothesis_verifier_node(state: CognitiveState):
-    """Checks evidence pool against expected symptoms to update probabilities."""
+    
     print("[RCA] Hypothesis Verifier cross-checking evidence...")
     hyps = state.get("active_hypotheses", [])
     # Simulate finding evidence for H2
@@ -50,7 +50,7 @@ def hypothesis_verifier_node(state: CognitiveState):
     return {"active_hypotheses": hyps}
 
 def rca_consensus_node(state: CognitiveState):
-    """Selects the highest probability hypothesis."""
+    
     hyps = state.get("active_hypotheses", [])
     if not hyps:
         return {"root_cause_declared": None}

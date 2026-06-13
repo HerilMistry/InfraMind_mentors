@@ -1,15 +1,4 @@
-"""Rule‑based remediation engine for the Optimization Agent.
 
-The engine receives an :class:`OptimizationRequest` and returns an
-:class:`OptimizationResponse`.  It is deliberately simple – a dictionary
-maps each ``anomaly_type`` to a list of candidate actions ordered by
-confidence.  The ``root_cause`` and ``metrics`` are inspected to adjust the
-confidence score and to provide a human‑readable *reasoning* string.
-
-The design is intentionally extensible: new anomaly types, actions, or a
-switch to an LLM‑driven strategy can be added by extending the
-``RULES`` dictionary or by subclassing :class:`BaseRemediationEngine`.
-"""
 
 from __future__ import annotations
 
@@ -96,25 +85,14 @@ class RuleMatch:
 
 
 class BaseRemediationEngine:
-    """Base class for remediation engines.
-
-    Sub‑class this if you need a more sophisticated strategy (e.g. LLM).
-    """
+    
 
     def decide(self, request: OptimizationRequest) -> OptimizationResponse:
         raise NotImplementedError
 
 
 class RuleBasedRemediationEngine(BaseRemediationEngine):
-    """Concrete implementation that uses the ``RULES`` mapping.
-
-    The algorithm:
-    1. Look‑up the rule list for ``request.anomaly_type``.
-    2. For each candidate, optionally adjust confidence using metric
-       thresholds (simple heuristics).
-    3. Choose the candidate with the highest final confidence.
-    4. Format a human readable reasoning string.
-    """
+    
 
     def __init__(self) -> None:
         self.rules = RULES

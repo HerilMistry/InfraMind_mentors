@@ -1,7 +1,4 @@
-"""
-mlops/retraining/trainer.py
-Trains an IsolationForest anomaly detector on the infrastructure metrics dataset.
-"""
+
 import logging
 from pathlib import Path
 from typing import Tuple, Dict, Any
@@ -27,7 +24,7 @@ FEATURE_COLS = [
 
 
 def load_data(data_path: Path) -> Tuple[np.ndarray, np.ndarray]:
-    """Load and preprocess the metrics CSV. Returns X, y."""
+    
     df = pd.read_csv(data_path)
 
     # Fill any missing values
@@ -40,7 +37,7 @@ def load_data(data_path: Path) -> Tuple[np.ndarray, np.ndarray]:
 
 
 def train_model(data_path: Path) -> Tuple[Pipeline, Dict[str, Any]]:
-    """Train an IsolationForest pipeline and return (model, metrics)."""
+    
     X, y = load_data(data_path)
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.2, random_state=42, stratify=y if y.sum() > 0 else None

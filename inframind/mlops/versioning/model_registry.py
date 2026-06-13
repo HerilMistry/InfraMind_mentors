@@ -1,8 +1,4 @@
-"""
-mlops/versioning/model_registry.py
-Utility helpers for querying the MLflow model registry.
-Used by the inference service to load the latest Production model.
-"""
+
 import os
 import logging
 import mlflow
@@ -16,7 +12,7 @@ MODEL_NAME          = os.getenv("MLFLOW_MODEL_NAME", "inframind-anomaly-detector
 
 
 def get_latest_model(stage: str = "Staging"):
-    """Load and return the latest model in the given stage."""
+    
     mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
     client = MlflowClient()
 
@@ -31,7 +27,7 @@ def get_latest_model(stage: str = "Staging"):
 
 
 def promote_to_production(version: str) -> None:
-    """Transition a specific version to Production."""
+    
     mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
     client = MlflowClient()
     client.transition_model_version_stage(

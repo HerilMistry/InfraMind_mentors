@@ -1,6 +1,4 @@
-"""RecoveryManager – validates recommendations, enforces safety policies, and
-executes remediation actions via the appropriate executor.
-"""
+
 
 from __future__ import annotations
 
@@ -29,12 +27,7 @@ MUTUALLY_EXCLUSIVE = {frozenset(["ROLLBACK_DEPLOYMENT", "TRIGGER_RETRAINING"])}
 
 
 class _RollbackTracker:
-    """Thread‑safe tracker for roll‑backs performed in the last hour.
-
-    It stores timestamps of each successful rollback and discards entries older
-    than one hour. ``allow()`` returns ``True`` if the rate limit has not been
-    exceeded.
-    """
+    
 
     def __init__(self) -> None:
         self._timestamps: Deque[datetime] = deque()
@@ -59,20 +52,7 @@ class _RollbackTracker:
 
 
 class RecoveryManager:
-    """Core manager for the Recovery Agent.
-
-    Parameters
-    ----------
-    context_store:
-        An object providing ``set_last_action`` and ``add_event`` – the same
-        interface used by other agents.
-    event_bus:
-        Shared :class:`EventBus` instance for publishing/subscribing.
-    mode:
-        Execution mode – ``"dry"`` (no side effects), ``"simulation"`` (returns
-        deterministic results), or ``"live"`` (talks to a real Kubernetes
-        cluster). Default is ``"simulation"`` for safety.
-    """
+    
 
     def __init__(self, context_store, event_bus, mode: str = "simulation") -> None:
         self.context = context_store
@@ -101,8 +81,7 @@ class RecoveryManager:
     # Public API – handle a recommendation payload
     # ---------------------------------------------------------------------
     def handle_recommendation(self, rec: Recommendation) -> ExecutionReport:
-        """Validate, enforce policies, execute, audit, and return a report.
-        """
+        
         logger.debug("Received recommendation: %s", rec.json())
 
         # 1️⃣ Confidence check
@@ -158,9 +137,7 @@ class RecoveryManager:
     # Internal helpers
     # ---------------------------------------------------------------------
     def _enforce_safety(self, rec: Recommendation) -> tuple[bool, str]:
-        """Return ``(True, "")`` if the recommendation passes all safety checks.
-        Otherwise return ``(False, reason)``.
-        """
+        
         action = rec.recommended_action
         # Mutual‑exclusion – currently only relevant when a recommendation could
         # contain multiple actions; kept for future extensibility.
@@ -187,8 +164,7 @@ class RecoveryManager:
         return True, ""
 
     def _audit(self, rec: Recommendation, report: ExecutionReport) -> None:
-        """Write an audit entry – returns the generated audit_id.
-        """
+        
         entry = {
             "recommendation": rec.dict(),
             "report": report.dict(),

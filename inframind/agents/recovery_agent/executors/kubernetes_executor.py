@@ -1,8 +1,4 @@
-"""Kubernetes executor for real cluster interaction.
-This executor uses the official ``kubernetes`` Python client. It is written so
-that the module can be imported even when the client library is not installed –
-in that case an informative ``ImportError`` is raised when ``execute`` is called.
-"""
+
 
 from __future__ import annotations
 
@@ -17,12 +13,7 @@ logger = logging.getLogger(__name__)
 
 
 class KubernetesExecutor(ActionExecutor):
-    """Execute actions against a live Kubernetes cluster.
-
-    The executor expects the ``kubernetes`` client library to be available and
-    configured via the usual ``KUBECONFIG`` environment variable or in‑cluster
-    configuration.
-    """
+    
 
     def __init__(self) -> None:
         try:

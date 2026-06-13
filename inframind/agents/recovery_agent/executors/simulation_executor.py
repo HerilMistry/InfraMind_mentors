@@ -1,7 +1,4 @@
-"""Simulation executor used for dry‑run and unit‑test scenarios.
-It does **not** talk to a real cluster; instead it returns a deterministic
-:class:`ExecutionReport` that mirrors what a real executor *would* report.
-"""
+
 
 from __future__ import annotations
 
@@ -15,11 +12,7 @@ logger = logging.getLogger(__name__)
 
 
 class SimulationExecutor(ActionExecutor):
-    """Fake executor that pretends to carry out the action.
-
-    The purpose is to enable safe testing of the ``RecoveryManager`` without
-    requiring a Kubernetes cluster or the ``kubernetes`` Python client.
-    """
+    
 
     def execute(self, recommendation: Recommendation) -> ExecutionReport:
         action = recommendation.recommended_action

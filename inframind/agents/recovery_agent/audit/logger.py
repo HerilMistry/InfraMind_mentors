@@ -1,7 +1,4 @@
-"""Audit logger for the Recovery Agent.
-Writes line‑delimited JSON entries to ``logs/recovery_audit.jsonl``.
-The logger rotates daily to avoid unbounded file growth.
-"""
+
 
 import json
 import logging
@@ -33,11 +30,7 @@ def get_logger() -> logging.Logger:
 
 
 def write_audit_entry(entry: dict) -> str:
-    """Write a single audit entry and return its ``audit_id``.
-
-    The ``entry`` dict will be JSON‑encoded on a single line. An ``audit_id``
-    (UUID4) is injected if not already present.
-    """
+    
     entry = entry.copy()
     audit_id = entry.get("audit_id") or str(uuid4())
     entry["audit_id"] = audit_id
