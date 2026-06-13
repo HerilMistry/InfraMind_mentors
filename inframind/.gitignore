@@ -1,3 +1,28 @@
 venv
 venv/
 env
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+
+# Env
+.env
+*.env.local
+
+# MLflow artifacts
+mlruns/
+mlartifacts/
+
+# Streamlit
+.streamlit/
+
+# Data (large files)
+data/*.parquet
+
+# IDE
+.vscode/
+.idea/
