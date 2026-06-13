@@ -5,12 +5,11 @@ WORKDIR /app
 # Install dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install langgraph
 
-# Copy all code
+# Copy all agent code
 COPY . .
 
-# Set Python path to resolve imports correctly
+# Set Python path so intra-package imports resolve correctly
 ENV PYTHONPATH=/app
 
-CMD sh -c "python3 agents/orchestrator/langgraph_flow.py & python3 -m http.server ${PORT:-8080}"
+CMD uvicorn agents.orchestrator.server:app --host 0.0.0.0 --port ${PORT:-8080}

@@ -1,0 +1,37 @@
+services:
+  # ── FastAPI Inference Service ─────────────────────────────────────────────
+  - type: web
+    name: inframind-inference
+    env: docker
+    dockerContext: inframind/services/inference_service
+    dockerfilePath: inframind/services/inference_service/Dockerfile
+    plan: free
+    envVars:
+      - key: USE_MICRO_MODEL
+        value: "false"
+      - key: MICRO_MODEL_URL
+        value: "http://127.0.0.1:8001/v1/completions"
+
+  # ── Orchestrator Agent (runs as web on free tier) ─────────────────────────
+  - type: web
+    name: inframind-orchestrator
+    env: docker
+    dockerContext: inframind
+    dockerfilePath: inframind/agents/orchestrator/Dockerfile
+    plan: free
+    envVars:
+      - key: INFERENCE_SERVICE_URL
+        fromService:
+          name: inframind-inference
+          type: web
+          property: host
+      - key: GROQ_API_KEY
+        sync: false
+      - key: MLFLOW_TRACKING_URI
+        value: "sqlite:///mlflow.db"
+      - key: MLFLOW_EXPERIMENT
+        value: "inframind-anomaly-detection"
+      - key: MLFLOW_MODEL_NAME
+        value: "inframind-anomaly-detector"
+      - key: PYTHONPATH
+        value: "/app"
