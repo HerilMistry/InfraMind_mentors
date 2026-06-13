@@ -17,8 +17,9 @@ __pycache__/
 mlruns/
 mlartifacts/
 
-# Streamlit
-.streamlit/
+# Streamlit — ignore secrets but commit config.toml
+.streamlit/secrets.toml
+frontend/.streamlit/secrets.toml
 
 # Data (large files)
 data/*.parquet
