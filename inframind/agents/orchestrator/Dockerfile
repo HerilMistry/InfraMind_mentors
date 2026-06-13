@@ -13,4 +13,4 @@ COPY . .
 # Set Python path to resolve imports correctly
 ENV PYTHONPATH=/app
 
-CMD ["python3", "agents/orchestrator/langgraph_flow.py"]
+CMD sh -c "python3 agents/orchestrator/langgraph_flow.py & python3 -m http.server ${PORT:-8080}"

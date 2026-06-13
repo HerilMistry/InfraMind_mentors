@@ -11,7 +11,7 @@ services:
       - key: MICRO_MODEL_URL
         value: "http://127.0.0.1:8001/v1/completions"
 
-  - type: worker
+  - type: web
     name: inframind-orchestrator
     env: docker
     dockerContext: .
