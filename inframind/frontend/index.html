@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InfraMind | Cognitive SRE Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="brand">
+                <div class="logo-orb"></div>
+                <h1>InfraMind</h1>
+            </div>
+            <ul class="nav-links">
+                <li class="active"><a href="#dashboard"><span class="icon">⊞</span> Overview</a></li>
+                <li><a href="#incidents"><span class="icon">⚡</span> Active Incidents</a></li>
+                <li><a href="#topology"><span class="icon">⌘</span> Causal Graph</a></li>
+                <li><a href="#agents"><span class="icon">⚙</span> Agent Status</a></li>
+            </ul>
+            <div class="cluster-status">
+                <span class="status-indicator healthy"></span>
+                <p>Cluster: <strong>PROD-K8S-01</strong></p>
+                <small>All systems operational</small>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header Section -->
+            <header class="top-bar">
+                <div class="search-bar">
+                    <input type="text" placeholder="Search metrics, logs, or traces...">
+                </div>
+                <div class="user-profile">
+                    <div class="avatar">SRE</div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard-grid">
+                
+                <!-- System Health Overview -->
+                <section class="card health-overview span-2">
+                    <div class="card-header">
+                        <h2>Infrastructure Health</h2>
+                        <span class="badge">Live</span>
+                    </div>
+                    <div class="metrics-row">
+                        <div class="metric-box">
+                            <span class="label">CPU Usage</span>
+                            <span class="value">42%</span>
+                            <div class="progress-bar"><div class="fill" style="width: 42%;"></div></div>
+                        </div>
+                        <div class="metric-box warning">
+                            <span class="label">Memory Pressure</span>
+                            <span class="value">88%</span>
+                            <div class="progress-bar"><div class="fill warning-fill" style="width: 88%;"></div></div>
+                        </div>
+                        <div class="metric-box">
+                            <span class="label">Network Latency</span>
+                            <span class="value">12ms</span>
+                            <div class="progress-bar"><div class="fill success-fill" style="width: 15%;"></div></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Agent Orchestration Flow (LangGraph Visualization) -->
+                <section class="card agent-flow span-2">
+                    <div class="card-header">
+                        <h2>Cognitive Orchestrator Flow</h2>
+                        <span class="badge pulse">Incident Detected</span>
+                    </div>
+                    <div class="flow-container">
+                        <div class="flow-step completed">
+                            <div class="step-icon">👁</div>
+                            <div class="step-content">
+                                <h3>Monitoring SubGraph</h3>
+                                <p>Memory Spike Signature Detected. TTF: 15m. Risk: 0.9</p>
+                            </div>
+                        </div>
+                        <div class="flow-connector completed"></div>
+                        <div class="flow-step completed">
+                            <div class="step-icon">🔍</div>
+                            <div class="step-content">
+                                <h3>RCA SubGraph</h3>
+                                <p>Root Cause: Traffic Spike causing OOM (Conf: 0.95)</p>
+                            </div>
+                        </div>
+                        <div class="flow-connector completed"></div>
+                        <div class="flow-step active">
+                            <div class="step-icon">⚖</div>
+                            <div class="step-content">
+                                <h3>Optimization SubGraph</h3>
+                                <p>Evaluating Pareto Frontier. Selected: strat-scale</p>
+                                <div class="loader"></div>
+                            </div>
+                        </div>
+                        <div class="flow-connector"></div>
+                        <div class="flow-step pending">
+                            <div class="step-icon">⚕</div>
+                            <div class="step-content">
+                                <h3>Recovery SubGraph</h3>
+                                <p>Awaiting dry-run execution...</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Latest Incident Details -->
+                <section class="card incident-details span-1">
+                    <div class="card-header">
+                        <h2>Active Incident</h2>
+                    </div>
+                    <div class="incident-card">
+                        <div class="incident-header">
+                            <span class="incident-id">INC-8492</span>
+                            <span class="incident-time">2 mins ago</span>
+                        </div>
+                        <h3 class="incident-title">Inference Service OOM Risk</h3>
+                        <p class="incident-desc">Sudden traffic spike is causing memory pressure on inference-deployment pods.</p>
+                        
+                        <div class="action-plan">
+                            <h4>Proposed Remediation:</h4>
+                            <div class="code-block">
+                                <pre><code>apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inference-deployment
+spec:
+  replicas: <span class="highlight">5</span> # Scaled up from 3</code></pre>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn primary">Approve Action</button>
+                                <button class="btn secondary">Reject</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Terminal / Log Stream -->
+                <section class="card terminal span-1">
+                    <div class="card-header">
+                        <h2>Agent Audit Log</h2>
+                        <div class="window-controls">
+                            <span class="control red"></span>
+                            <span class="control yellow"></span>
+                            <span class="control green"></span>
+                        </div>
+                    </div>
+                    <div class="terminal-content" id="terminal-output">
+                        <!-- Populated by JS -->
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="js/app.js"></script>
+</body>
+</html>

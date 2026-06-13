@@ -1,4 +1,5 @@
 from shared.event_bus import Event
+from shared.models import Anomaly, RootCause
 
 from root_cause_agent.log_parser import (
     LogParser
@@ -35,8 +36,6 @@ class RootCauseAgent:
         self.event_bus.subscribe(
             "MODEL_DRIFT_DETECTED",
             self.analyze
-        )
-
     def analyze(
         self,
         event
@@ -46,12 +45,15 @@ class RootCauseAgent:
             f"Received event: "
             f"{event.event_type}"
         )
+        
+        anomaly = event.payload if isinstance(event.payload, Anomaly) else None
+        metrics = anomaly.metrics if anomaly else {}
 
         logs = self.log_parser.get_logs(
             namespace="default",
         )
 
-        root_cause = (
+        root_cause_str = (
             self.diagnosis_engine.diagnose(
                 event.event_type,
                 logs
@@ -59,11 +61,14 @@ class RootCauseAgent:
         )
 
         self.context.set_root_cause(
-            root_cause
+            root_cause_str
         )
+        
+        root_cause_obj = RootCause(root_cause=root_cause_str, anomaly=anomaly) if anomaly else None
 
         root_event = Event(
-            "ROOT_CAUSE_FOUND"
+            event_type="ROOT_CAUSE_FOUND",
+            payload=root_cause_obj
         )
 
         self.context.add_event(
@@ -76,5 +81,5 @@ class RootCauseAgent:
 
         print(
             f"Root cause identified: "
-            f"{root_cause}"
+            f"{root_cause_str}"
         )

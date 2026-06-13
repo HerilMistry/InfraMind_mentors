@@ -9,42 +9,26 @@ from monitoring_agent.anomaly_detector import (
 from shared.event_bus import Event
 
 
+from shared.models import Anomaly
+
 class MonitoringAgent:
 
     def __init__(self,context_store,event_bus):
 
         self.context = context_store
-
         self.event_bus = event_bus
-
         self.monitor = Monitor()
-
-        self.detector = (
-            AnomalyDetector()
-        )
+        self.detector = AnomalyDetector()
 
     def run(self):
 
-        metrics = (
-            self.monitor.collect_metrics()
-        )
-
-        self.context.update_metrics(
-            metrics
-        )
-
-        alerts = (
-            self.detector.detect(
-                metrics
-            )
-        )
+        metrics = self.monitor.collect_metrics()
+        self.context.update_metrics(metrics)
+        alerts = self.detector.detect(metrics)
 
         for alert in alerts:
-
-            self.context.add_event(
-                alert
-            )
-
+            anomaly = Anomaly(anomaly_type=alert, metrics=metrics)
+            self.context.add_event(alert)
             self.event_bus.publish(
-                Event(alert)
+                Event(event_type=alert, payload=anomaly)
             )

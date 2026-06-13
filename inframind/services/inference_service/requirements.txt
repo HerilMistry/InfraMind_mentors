@@ -3,3 +3,4 @@ uvicorn
 pydantic
 prometheus-client
 numpy
+prometheus-fastapi-instrumentator

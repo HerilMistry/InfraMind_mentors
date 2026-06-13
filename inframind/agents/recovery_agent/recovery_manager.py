@@ -10,10 +10,10 @@ from collections import deque
 from datetime import datetime, timedelta
 from typing import Deque, Optional
 
-from ..models import Recommendation, ExecutionReport, ExecutionStatus
-from ..executors.simulation_executor import SimulationExecutor
-from ..executors.kubernetes_executor import KubernetesExecutor
-from ..audit.logger import write_audit_entry
+from .models import Recommendation, ExecutionReport, ExecutionStatus
+from .executors.simulation_executor import SimulationExecutor
+from .executors.kubernetes_executor import KubernetesExecutor
+from .audit.logger import write_audit_entry
 
 logger = logging.getLogger(__name__)
 
@@ -94,9 +94,8 @@ class RecoveryManager:
         # Roll‑back rate‑limit tracker
         self._rollback_tracker = _RollbackTracker()
 
-        # Subscribe to optimisation failure events (legacy path retained for
-        # compatibility with existing RecoveryAgent implementation).
-        self.event_bus.subscribe("OPTIMIZATION_FAILED", self.handle_event)
+        # Subscribe to optimization completed events to act on recommendations.
+        self.event_bus.subscribe("OPTIMIZATION_COMPLETED", self.handle_event)
 
     # ---------------------------------------------------------------------
     # Public API – handle a recommendation payload

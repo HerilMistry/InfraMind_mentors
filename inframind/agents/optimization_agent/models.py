@@ -1,4 +1,3 @@
-'''python
 """Data models for the Optimization Agent.
 
 Provides strongly‑typed request and response schemas using Pydantic.
@@ -93,4 +92,3 @@ class OptimizationResponse(BaseModel):
     reasoning: str = Field(..., description="Human‑readable explanation of the decision")
 
 """End of file."""
-```

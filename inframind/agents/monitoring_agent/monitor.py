@@ -1,7 +1,8 @@
+import os
 import requests
-#for now i used polling.. later.. we can shift to websockets!
-PROM_URL = "http://localhost:9090"
 
+# Use environment variable for Prometheus URL, useful for Kubernetes deployment
+PROM_URL = os.environ.get("PROM_URL", "http://localhost:9090")
 
 class Monitor:
 

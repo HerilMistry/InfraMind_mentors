@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: inframind-inference
+    env: docker
+    dockerContext: ./services/inference_service
+    dockerfilePath: ./services/inference_service/Dockerfile
+    plan: free
+
+  - type: worker
+    name: inframind-orchestrator
+    env: docker
+    dockerContext: .
+    dockerfilePath: ./agents/orchestrator/Dockerfile
+    plan: free
+    envVars:
+      - key: PROM_URL
+        value: "http://prometheus:9090" # Needs actual prometheus host in production
+      - key: GROQ_API_KEY
+        sync: false # Set via Render Dashboard

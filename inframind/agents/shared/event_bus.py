@@ -1,10 +1,11 @@
 from dataclasses import dataclass
-from typing import Callable
+from typing import Callable, Any, Optional
 
 
 @dataclass
 class Event:
     event_type: str
+    payload: Optional[Any] = None
 
 
 class SimpleEventBus:
