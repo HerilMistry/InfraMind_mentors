@@ -2,8 +2,7 @@
    InfraMind — Premium Design System v2
    ═══════════════════════════════════════════════════════ */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap');
 :root {
   --bg-deep:    #060810;
   --bg-main:    #0A0D14;
@@ -33,9 +32,9 @@
   --border:        rgba(255,255,255,0.07);
   --border-bright: rgba(255,255,255,0.12);
 
-  --radius-sm: 8px;
-  --radius-md: 14px;
-  --radius-lg: 20px;
+  --radius-sm: 12px;
+  --radius-md: 20px;
+  --radius-lg: 28px;
 
   --shadow-sm:  0 2px 12px rgba(0,0,0,0.4);
   --shadow-md:  0 8px 32px rgba(0,0,0,0.5);
@@ -48,7 +47,7 @@
 
 /* ── Global ── */
 html, body {
-  font-family: 'Inter', -apple-system, sans-serif;
+  font-family: 'Outfit', -apple-system, sans-serif;
   background-color: var(--bg-main);
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
@@ -170,7 +169,7 @@ html, body {
   border: 1px solid var(--border-bright) !important;
   border-radius: var(--radius-sm) !important;
   color: var(--text-primary) !important;
-  font-family: 'Inter', sans-serif !important;
+  font-family: 'Outfit', sans-serif !important;
   font-size: 0.9rem !important;
   transition: border-color 0.2s, box-shadow 0.2s !important;
 }
@@ -269,7 +268,7 @@ hr, [data-testid="stDivider"] {
 .terminal-box::before {
   content: '● ● ●';
   display: block;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 0.65rem;
   color: var(--text-muted);
   letter-spacing: 4px;
